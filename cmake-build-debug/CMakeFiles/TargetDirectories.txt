@@ -1,0 +1,3 @@
+/Users/gabrielkanocz/Desktop/z4_project/cmake-build-debug/CMakeFiles/z4.dir
+/Users/gabrielkanocz/Desktop/z4_project/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/gabrielkanocz/Desktop/z4_project/cmake-build-debug/CMakeFiles/rebuild_cache.dir
