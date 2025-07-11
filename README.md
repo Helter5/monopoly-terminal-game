@@ -46,6 +46,3 @@ Test cases are organized in subfolders (`s1`, `s2`, ...), each containing:
 - `stdin_XX.txt` — Input moves
 - `stdout_XX.txt` — Expected output
 - `parameters_XX.txt` — Command-line arguments for the test
-
-### License
-MIT License (see repository for details)
