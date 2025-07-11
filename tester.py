@@ -75,13 +75,68 @@ def run_tests(exe_path, test_folder, print_output=False):
             print("\nOutput:")
             print(output)
 
-run_tests('/Users/gabrielkanocz/Desktop/z4_tester/z4', 's1', print_output=False)
-run_tests('/Users/gabrielkanocz/Desktop/z4_tester/z4', 's2', print_output=False)
-run_tests('/Users/gabrielkanocz/Desktop/z4_tester/z4', 's3', print_output=False)
-run_tests('/Users/gabrielkanocz/Desktop/z4_tester/z4', 's4', print_output=False)
-run_tests('/Users/gabrielkanocz/Desktop/z4_tester/z4', 's5', print_output=False)
-run_tests('/Users/gabrielkanocz/Desktop/z4_tester/z4', 's6', print_output=False)
-run_tests('/Users/gabrielkanocz/Desktop/z4_tester/z4', 's7', print_output=False)
-run_tests('/Users/gabrielkanocz/Desktop/z4_tester/z4', 's8', print_output=False)
-run_tests('/Users/gabrielkanocz/Desktop/z4_tester/z4', 's9', print_output=False)
+def main():
+    # Get the directory where this script is located
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    
+    # Look for the executable in multiple locations
+    possible_exe_paths = [
+        os.path.join(script_dir, 'cmake-build-debug', 'z4'),
+        os.path.join(script_dir, 'z4'),
+        os.path.join(script_dir, 'build', 'z4')
+    ]
+    
+    exe_path = None
+    for path in possible_exe_paths:
+        if os.path.exists(path):
+            exe_path = path
+            break
+    
+    # Check if executable exists
+    if exe_path is None:
+        print("Executable 'z4' not found in any of these locations:")
+        for path in possible_exe_paths:
+            print(f"  {path}")
+        print("\nPlease build the project first using one of these methods:")
+        print("\nMethod 1 - CMake (if you have cmake installed):")
+        print("  mkdir -p cmake-build-debug")
+        print("  cd cmake-build-debug")
+        print("  cmake ..")
+        print("  make")
+        print("\nMethod 2 - Direct compilation (if you have gcc):")
+        print("  gcc -Wall -Wextra -std=c11 -Iinclude src/z4.c src/monopoly.c -o z4")
+        return
+    
+    # Look for tests directory
+    tests_dir = os.path.join(script_dir, 'tests')
+    if not os.path.exists(tests_dir):
+        print(f"Tests directory not found at {tests_dir}")
+        return
+    
+    # Find all test scenario directories (s1, s2...)
+    test_scenarios = []
+    for item in os.listdir(tests_dir):
+        item_path = os.path.join(tests_dir, item)
+        if os.path.isdir(item_path) and item.startswith('s') and item[1:].isdigit():
+            test_scenarios.append(item)
+    
+    test_scenarios.sort()
+    
+    if not test_scenarios:
+        print("No test scenarios found in tests directory")
+        return
+    
+    print(f"Found executable: {exe_path}")
+    print(f"Running tests from: {tests_dir}")
+    print(f"Test scenarios: {', '.join(test_scenarios)}")
+    print("-" * 50)
+    
+    # Run all test scenarios
+    for scenario in test_scenarios:
+        scenario_path = os.path.join(tests_dir, scenario)
+        print(f"\nRunning tests for scenario {scenario}:")
+        run_tests(exe_path, scenario_path, print_output=False)
+
+if __name__ == "__main__":
+    main()
 
